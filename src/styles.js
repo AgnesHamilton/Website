@@ -9,11 +9,10 @@ body { margin:0; color:var(--ink); background:#fff; min-width:320px; }
 a { color:inherit; }
 img { display:block; max-width:100%; }
 .site-header { width:min(100%, 980px); margin:0 auto; padding:14px 0 0; }
-.site-header--booking { padding:42px 18px 0; }
 .brand { display:none; }
 nav { display:flex; justify-content:center; align-items:stretch; flex-wrap:nowrap; overflow-x:auto; }
 nav a { flex:0 0 auto; display:grid; place-items:center; min-height:58px; padding:0 18px; border-left:1px solid var(--ink); color:var(--ink); font-size:12px; font-weight:400; text-decoration:none; white-space:nowrap; }
-.site-header:not(.site-header--booking) nav a { min-height:25px; padding:0 14px; font:400 12px/1 Aboreto,serif; }
+.site-header nav a { min-height:25px; padding:0 14px; font:400 12px/1 Aboreto,serif; }
 nav a:last-child { border-right:1px solid var(--ink); }
 nav a[aria-current="page"], nav a:hover { color:#fff; background:var(--active); }
 .page-title { width:min(100%, 980px); margin:0 auto; padding:24px 0 6px; }
