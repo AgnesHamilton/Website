@@ -62,7 +62,11 @@ const structuredData = page.structuredData || {
         <span>Agnes Hamilton</span>
         <small>Tattoos &amp; Fine Art</small>
       </a>
-      <nav aria-label="Main navigation">
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+        <span class="menu-toggle__icon" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="sr-only">Open menu</span>
+      </button>
+      <nav id="site-navigation" aria-label="Main navigation">
         {navItems.map((item) => (
           <a href={pageHref(item.path)} aria-current={item.path === page.path ? "page" : undefined}>
             {item.nav}
@@ -70,6 +74,33 @@ const structuredData = page.structuredData || {
         ))}
       </nav>
     </header>
+
+    <script>
+      const menuButton = document.querySelector(".menu-toggle");
+      const siteNavigation = document.querySelector("#site-navigation");
+
+      const setMenuOpen = (open) => {
+        if (!(menuButton instanceof HTMLButtonElement) || !(siteNavigation instanceof HTMLElement)) return;
+        menuButton.setAttribute("aria-expanded", String(open));
+        menuButton.querySelector(".sr-only").textContent = open ? "Close menu" : "Open menu";
+        siteNavigation.toggleAttribute("data-open", open);
+      };
+
+      menuButton?.addEventListener("click", () => {
+        setMenuOpen(menuButton.getAttribute("aria-expanded") !== "true");
+      });
+
+      siteNavigation?.addEventListener("click", (event) => {
+        if (event.target instanceof HTMLAnchorElement) setMenuOpen(false);
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setMenuOpen(false);
+          if (menuButton instanceof HTMLButtonElement) menuButton.focus();
+        }
+      });
+    </script>
 
     <main>
       <slot />

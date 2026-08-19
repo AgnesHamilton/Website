@@ -10,6 +10,8 @@ a { color:inherit; }
 img { display:block; max-width:100%; }
 .site-header { width:min(100%, 980px); margin:0 auto; padding:14px 0 0; }
 .brand { display:none; }
+.menu-toggle { display:none; }
+.sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 nav { display:flex; justify-content:center; align-items:stretch; flex-wrap:nowrap; overflow-x:auto; }
 nav a { flex:0 0 auto; display:grid; place-items:center; min-height:58px; padding:0 18px; border-left:1px solid var(--ink); color:var(--ink); font-size:12px; font-weight:400; text-decoration:none; white-space:nowrap; }
 .site-header nav a { min-height:25px; padding:0 14px; font:400 12px/1 Aboreto,serif; }
@@ -114,9 +116,17 @@ figcaption { display:none; }
 .site-footer p { margin:0; }
 .site-footer a { text-underline-offset:3px; }
 @media (max-width:700px) {
-  .site-header { padding-top:18px; }
-  nav { justify-content:flex-start; }
-  nav a { min-height:48px; padding:0 13px; font-size:11px; }
+  .site-header { position:relative; display:flex; justify-content:flex-end; min-height:62px; padding:10px 18px; border-bottom:1px solid #d8d8d8; }
+  .menu-toggle { display:grid; place-items:center; width:44px; height:42px; padding:0; border:1px solid var(--ink); background:#fff; color:var(--ink); cursor:pointer; }
+  .menu-toggle__icon { display:grid; gap:5px; width:20px; }
+  .menu-toggle__icon i { display:block; width:100%; height:1px; background:currentColor; transition:transform .18s ease, opacity .18s ease; }
+  .menu-toggle[aria-expanded="true"] .menu-toggle__icon i:first-child { transform:translateY(6px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .menu-toggle__icon i:nth-child(2) { opacity:0; }
+  .menu-toggle[aria-expanded="true"] .menu-toggle__icon i:last-child { transform:translateY(-6px) rotate(-45deg); }
+  .site-header nav { display:none; position:absolute; z-index:20; top:61px; left:0; right:0; flex-direction:column; align-items:stretch; overflow:visible; padding:0 18px 18px; background:#fff; border-bottom:1px solid #d8d8d8; box-shadow:0 10px 20px rgba(0,0,0,.08); }
+  .site-header nav[data-open] { display:flex; }
+  .site-header nav a { display:flex; justify-content:flex-start; min-height:46px; padding:0 12px; border:0; border-bottom:1px solid #d8d8d8; font-size:12px; }
+  .site-header nav a:last-child { border-right:0; }
   .page-title { padding-top:54px; }
   .home-original { min-height:0; padding-top:30px; display:grid; grid-template-columns:1fr; }
   .home-original img { width:100%; height:auto; aspect-ratio:586/796; }
