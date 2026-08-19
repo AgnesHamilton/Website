@@ -1,0 +1,55 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { pages } from "../content.js";
+
+export function getStaticPaths() {
+  return pages.map((page) => ({
+    params: { slug: page.path === "/" ? undefined : page.path.slice(1) },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<SiteLayout page={page}>
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>{page.h1}</h1>
+      <p>{page.lede}</p>
+      <div class="actions">
+        <a class="button primary" href="/booking/">Book a Tattoo</a>
+        <a class="button" href="/tattoos/">View Tattoos</a>
+      </div>
+    </div>
+    <figure class="hero-media">
+      <img src={page.heroImage.src} alt={page.heroImage.alt} />
+    </figure>
+  </section>
+
+  {page.sections.map((section) => (
+    <section class={section.kind || "section"}>
+      <div class="section-copy">
+        <h2>{section.heading}</h2>
+        {section.body.map((paragraph) => <p>{paragraph}</p>)}
+        {section.actions && (
+          <div class="actions">
+            {section.actions.map((action) => (
+              <a class:list={["button", { primary: action.primary }]} href={action.href}>{action.label}</a>
+            ))}
+          </div>
+        )}
+      </div>
+      {section.gallery?.length > 0 && (
+        <div class="gallery">
+          {section.gallery.map((item) => (
+            <figure>
+              <img src={item.src} alt={item.alt} loading="lazy" />
+              <figcaption>{item.caption || item.alt}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+    </section>
+  ))}
+</SiteLayout>

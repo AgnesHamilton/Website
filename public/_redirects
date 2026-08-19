@@ -1,0 +1,11 @@
+/oldshop /shop/ 301
+/updates /upcoming-events/ 301
+/forms /booking/ 301
+/book-a-consultation /booking/ 301
+/book-a-coverup-tattoo /cover-ups/ 301
+/tattoo-release-form /booking/ 301
+/covid-19-questionnaire /booking/ 301
+/raffle / 301
+/winter-raffle / 301
+/illustration /paintings/ 301
+/single-post/* /upcoming-events/ 301

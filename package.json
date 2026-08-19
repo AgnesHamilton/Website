@@ -1,0 +1,17 @@
+{
+  "name": "agnes-hamilton-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "audit": "node scripts/audit-wix.mjs",
+    "download-media": "node scripts/download-wix-media.mjs",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "build:legacy": "node scripts/build-static.mjs"
+  },
+  "devDependencies": {
+    "astro": "^5.13.2"
+  }
+}

@@ -1,0 +1,48 @@
+---
+import { pages } from "../content.js";
+import { css } from "../styles.js";
+
+const { page } = Astro.props;
+const canonical = new URL(page.path === "/" ? "/" : `${page.path}/`, Astro.site);
+const navItems = pages.filter((item) => item.nav);
+const pageHref = (path) => path === "/" ? "/" : `${path}/`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{page.title}</title>
+    <meta name="description" content={page.description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <style is:global set:html={css} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <span>Agnes Hamilton</span>
+        <small>Tattoos &amp; Fine Art</small>
+      </a>
+      <nav aria-label="Main navigation">
+        {navItems.map((item) => (
+          <a href={pageHref(item.path)} aria-current={item.path === page.path ? "page" : undefined}>
+            {item.nav}
+          </a>
+        ))}
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>Agnes Hamilton Tattoos &amp; Fine Art, Portland, Oregon</p>
+      <a href="mailto:info@agneshamilton.com">info@agneshamilton.com</a>
+      <a href="https://www.instagram.com/aggie.q.tattoo/">Instagram</a>
+    </footer>
+  </body>
+</html>
