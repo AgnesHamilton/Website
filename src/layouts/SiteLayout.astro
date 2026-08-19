@@ -1,11 +1,12 @@
 ---
 import { pages } from "../content.js";
 import { css } from "../styles.js";
+import { wixImage } from "../image-utils.js";
 
 const { page } = Astro.props;
 const canonicalPath = page.canonicalPath || page.path;
 const canonical = new URL(canonicalPath === "/" ? "/" : `${canonicalPath.replace(/\/$/, "")}/`, Astro.site);
-const socialImage = new URL(page.image || "https://static.wixstatic.com/media/41554d_32408e731bb247e2b583c0320a2d4424~mv2.jpg", Astro.site);
+const socialImage = new URL(wixImage(page.image || "https://static.wixstatic.com/media/41554d_32408e731bb247e2b583c0320a2d4424~mv2.jpg", 1200, 85), Astro.site);
 const navItems = pages.filter((item) => item.nav);
 const pageHref = (path) => path === "/" ? "/" : `${path}/`;
 const structuredData = page.structuredData || {
@@ -17,7 +18,7 @@ const structuredData = page.structuredData || {
   email: "info@agneshamilton.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "3032 NE Broadway",
+    streetAddress: "3021 NE Broadway",
     addressLocality: "Portland",
     addressRegion: "OR",
     postalCode: "97232",
@@ -43,10 +44,14 @@ const structuredData = page.structuredData || {
     <meta property="og:description" content={page.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={`${page.title} — Agnes Hamilton Tattoos & Fine Art`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={page.title} />
     <meta name="twitter:description" content={page.description} />
     <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={`${page.title} — Agnes Hamilton Tattoos & Fine Art`} />
+    <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <style is:global set:html={css} />

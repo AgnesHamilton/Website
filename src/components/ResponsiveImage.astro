@@ -1,0 +1,24 @@
+---
+import { wixImage, wixSrcset } from "../image-utils.js";
+
+const {
+  src,
+  alt,
+  sizes = "(max-width: 700px) 50vw, 245px",
+  width = 960,
+  loading = "lazy",
+  fetchpriority,
+  class: className,
+} = Astro.props;
+---
+
+<img
+  src={wixImage(src, width)}
+  srcset={wixSrcset(src)}
+  sizes={wixSrcset(src) ? sizes : undefined}
+  alt={alt}
+  loading={loading}
+  decoding="async"
+  fetchpriority={fetchpriority}
+  class={className}
+/>

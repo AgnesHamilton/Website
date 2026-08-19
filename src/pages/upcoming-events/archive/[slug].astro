@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from "astro:content";
 import SiteLayout from "../../../layouts/SiteLayout.astro";
+import ResponsiveImage from "../../../components/ResponsiveImage.astro";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("updates")).filter((post) => post.data.published);
@@ -28,7 +29,7 @@ const page = {
     <a class="event-back" href="/upcoming-events/">← EVENTS &amp; UPDATES</a>
     <h1>{post.data.title}</h1>
     <p class="event-date">{new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(post.data.published_at)}</p>
-    {post.data.image && <img src={post.data.image} alt="" />}
+    {post.data.image && <ResponsiveImage src={post.data.image} alt={`${post.data.title} event artwork`} sizes="(max-width: 820px) 100vw, 820px" width={1280} loading="eager" fetchpriority="high" />}
     <div class="event-body"><Content /></div>
   </article>
 </SiteLayout>

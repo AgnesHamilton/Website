@@ -1,7 +1,9 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import ResponsiveImage from "../components/ResponsiveImage.astro";
 import { pages } from "../content.js";
 import legacyMedia from "../legacy-media.json";
+import { usefulAlt } from "../image-utils.js";
 
 export function getStaticPaths() {
   return pages.filter((page) => page.path !== "/upcoming-events").map((page) => ({
@@ -37,7 +39,7 @@ const faq = [
   {page.path === "/" && pageImages.length > 0 ? (
     <section class="home-original">
       <h1><span>TATTOOS BY</span>AGNES<br />HAMILTON</h1>
-      <img src={pageImages[0].src} alt={pageImages[0].alt || "Agnes Hamilton tattoo work"} />
+      <ResponsiveImage src={pageImages[0].src} alt="Custom tattoo artwork by Agnes Hamilton" sizes="(max-width: 700px) 100vw, 586px" width={960} loading="eager" fetchpriority="high" />
     </section>
   ) : !["/about", "/shop"].includes(page.path) && (
     <section class="page-title">
@@ -49,7 +51,7 @@ const faq = [
 
   {pageImages.length > 0 && !["/about","/","/shop"].includes(page.path) && (
     <section class:list={["legacy-gallery", `legacy-gallery--${page.path.slice(1) || "home"}`]} aria-label={`${page.h1} gallery`}>
-      {pageImages.map((image, index) => <img src={image.src} alt={image.alt || `${page.h1} image ${index + 1}`} loading={index < 6 ? "eager" : "lazy"} />)}
+      {pageImages.map((image, index) => <ResponsiveImage src={image.src} alt={usefulAlt(image.alt, `${page.h1} portfolio`, index + 1)} loading={index < 4 ? "eager" : "lazy"} fetchpriority={index === 0 ? "high" : undefined} />)}
     </section>
   )}
 
@@ -58,15 +60,15 @@ const faq = [
       <div class="about-original__copy">
         {page.sections[0].body.map((paragraph) => <p set:html={paragraph} />)}
       </div>
-      <img src={pageImages[0].src} alt={pageImages[0].alt || "Agnes Hamilton"} />
+      <ResponsiveImage src={pageImages[0].src} alt="Portrait of Portland tattoo artist Agnes Hamilton" sizes="(max-width: 700px) 100vw, 447px" width={960} loading="eager" fetchpriority="high" />
     </section>
   )}
 
   {page.path === "/shop" && pageImages.length >= 2 && (
     <section class="shop-original">
       <div class="gift-copy"><h1>GIFT CERTIFICATES</h1><p>Tattoos make great gifts!</p><p>Pick one up in person or<br />click below to purchase online.<br />Gift certificates can be mailed to you or sent digitally.</p><a href="mailto:info@agneshamilton.com?subject=Gift%20certificate">BUY A GIFT CERTIFICATE</a></div>
-      <img class="gift-image" src={pageImages[0].src} alt={pageImages[0].alt} />
-      <div class="hoodie-card"><img src={pageImages[1].src} alt={pageImages[1].alt} /><div><h2>Wolf &amp; Sheep Hoodies</h2><p>Sizes XS–3XL available</p><h3>Super cozy! $50</h3><ul><li>80/20 ring-spun cotton/polyester blend fleece</li><li>Jersey lined hood</li><li>Split-stitched double-needle sewing on all seams</li><li>Twill neck tape</li><li>Ribbing at cuffs &amp; waistband</li><li>Metal eyelets and zipper</li></ul><a href="mailto:info@agneshamilton.com?subject=Hoodie%20order">Order Here</a></div></div>
+      <ResponsiveImage class="gift-image" src={pageImages[0].src} alt="Agnes Hamilton tattoo gift certificate" sizes="(max-width: 700px) 100vw, 551px" width={960} />
+      <div class="hoodie-card"><ResponsiveImage src={pageImages[1].src} alt="Wolf and sheep hoodie by Agnes Hamilton" sizes="(max-width: 700px) 100vw, 476px" width={960} /><div><h2>Wolf &amp; Sheep Hoodies</h2><p>Sizes XS–3XL available</p><h3>Super cozy! $50</h3><ul><li>80/20 ring-spun cotton/polyester blend fleece</li><li>Jersey lined hood</li><li>Split-stitched double-needle sewing on all seams</li><li>Twill neck tape</li><li>Ribbing at cuffs &amp; waistband</li><li>Metal eyelets and zipper</li></ul><a href="mailto:info@agneshamilton.com?subject=Hoodie%20order">Order Here</a></div></div>
     </section>
   )}
 
