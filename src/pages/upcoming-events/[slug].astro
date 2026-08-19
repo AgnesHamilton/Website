@@ -1,0 +1,26 @@
+---
+import { getCollection, render } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+export async function getStaticPaths() {
+  const events = (await getCollection("events")).filter((event) => event.data.published);
+  return events.map((event) => ({ params: { slug: event.id }, props: { event } }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short" }).format(date);
+const page = { path: "/upcoming-events", title: `${event.data.title} | Agnes Hamilton`, description: event.data.summary };
+---
+
+<SiteLayout page={page}>
+  <article class="event-detail">
+    <a class="event-back" href="/upcoming-events/">← ALL EVENTS</a>
+    <h1>{event.data.title}</h1>
+    <p class="event-date">{formatDate(event.data.start)}</p>
+    <p>{event.data.location}{event.data.address ? ` · ${event.data.address}` : ""}</p>
+    {event.data.image && <img src={event.data.image} alt="" />}
+    <div class="event-body"><Content /></div>
+    {event.data.event_url && <a class="button" href={event.data.event_url}>EVENT INFORMATION</a>}
+  </article>
+</SiteLayout>

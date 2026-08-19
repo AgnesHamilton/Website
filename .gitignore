@@ -5,5 +5,7 @@ node_modules/
 .env
 .env.*
 dist/
+reference-dist/
+work/
 *.zip
 /*.csv

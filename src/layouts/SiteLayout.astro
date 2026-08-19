@@ -21,7 +21,7 @@ const pageHref = (path) => path === "/" ? "/" : `${path}/`;
     <style is:global set:html={css} />
   </head>
   <body>
-    <header class="site-header">
+    <header class:list={["site-header", { "site-header--booking": page.path === "/booking" }] }>
       <a class="brand" href="/">
         <span>Agnes Hamilton</span>
         <small>Tattoos &amp; Fine Art</small>

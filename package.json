@@ -7,6 +7,10 @@
     "audit": "node scripts/audit-wix.mjs",
     "download-media": "node scripts/download-wix-media.mjs",
     "dev": "astro dev",
+    "reference:build": "node scripts/build-reference.mjs",
+    "reference:serve": "npx serve reference-dist -l 4174",
+    "migrate:posts": "node scripts/migrate-legacy-posts.mjs",
+    "extract:media": "node scripts/extract-legacy-media.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "build:legacy": "node scripts/build-static.mjs"

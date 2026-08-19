@@ -9,3 +9,22 @@
 /winter-raffle / 301
 /illustration /paintings/ 301
 /single-post/* /upcoming-events/ 301
+
+# legacy-posts:start
+/single-post/2017/06/15/tacoma-tatau-festival /upcoming-events/archive/2017-06-15-tacoma-tatau-festival/ 301
+/single-post/2017/06/22/more-than-machines-1 /upcoming-events/archive/2017-06-22-more-than-machines-1/ 301
+/single-post/2017/06/22/more-than-machines-a-group-art-show /upcoming-events/archive/2017-06-22-more-than-machines-a-group-art-show/ 301
+/single-post/2017/10/24/pacific-nw-tattoo-expo /upcoming-events/archive/2017-10-24-pacific-nw-tattoo-expo/ 301
+/single-post/2017/11/06/end-of-the-world-show-at-jailhouse-studios /upcoming-events/archive/2017-11-06-end-of-the-world-show-at-jailhouse-studios/ 301
+/single-post/2018/03/15/skin-deep /upcoming-events/archive/2018-03-15-skin-deep/ 301
+/single-post/2018/03/22/iron-circus-tattoo-expo /upcoming-events/archive/2018-03-22-iron-circus-tattoo-expo/ 301
+/single-post/2018/03/22/oregon-tattoo-expo /upcoming-events/archive/2018-03-22-oregon-tattoo-expo/ 301
+/single-post/2018/10/05/halloweenie /upcoming-events/archive/2018-10-05-halloweenie/ 301
+/single-post/2018/10/05/more-fun-with-tattoos-in-casinos /upcoming-events/archive/2018-10-05-more-fun-with-tattoos-in-casinos/ 301
+/single-post/2019/02/15/new-stickers /upcoming-events/archive/2019-02-15-new-stickers/ 301
+/single-post/2019/02/28/portland-tattoo-expo /upcoming-events/archive/2019-02-28-portland-tattoo-expo/ 301
+/single-post/new-hours-other-changes /upcoming-events/archive/new-hours-other-changes/ 301
+/single-post/now-booking-through-december-2022 /upcoming-events/archive/now-booking-through-december-2022/ 301
+/single-post/spring-update-and-books-are-open /upcoming-events/archive/spring-update-and-books-are-open/ 301
+/single-post/super-late-to-update /upcoming-events/archive/super-late-to-update/ 301
+# legacy-posts:end

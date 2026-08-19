@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import legacyMedia from "../legacy-media.json";
+
+const page = {
+  path: "/upcoming-events",
+  title: "Upcoming Events | Agnes Hamilton Tattoos & Fine Art",
+  description: "Upcoming events, guest spots, tattoo expos, and announcements from Agnes Hamilton.",
+};
+
+const now = new Date();
+const allEvents = (await getCollection("events"))
+  .filter((event) => event.data.published)
+  .sort((a, b) => a.data.start.valueOf() - b.data.start.valueOf());
+const upcoming = allEvents.filter((event) => (event.data.end || event.data.start) >= now);
+const past = allEvents.filter((event) => (event.data.end || event.data.start) < now).reverse();
+const updates = (await getCollection("updates"))
+  .filter((post) => post.data.published)
+  .sort((a, b) => b.data.published_at.valueOf() - a.data.published_at.valueOf());
+const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short" }).format(date);
+---
+
+<SiteLayout page={page}>
+  <section class="events-legacy-title"><h1>EVENTS, RAFFLES &amp;<br />FUNDRAISERS</h1></section>
+  <section class="events-legacy">
+    <article><div><p class="legacy-event-date">May 23 + 24, 2026</p><h2>CRYPTID EXPO</h2><p>At the Washington State Fairgrounds<br />110 9th Ave, Puyallup, WA</p><p>I will be at the Cryptid Expo all weekend with some of my amazingly talented friends from Anatomy. Fun Cryptid flash will be posted soon!<br /><a href="https://cryptidexpo.com/">Get Tickets here!</a></p><strong>MORE INFO COMING SOON!</strong></div><img src={legacyMedia["/upcoming-events"][0].src} alt={legacyMedia["/upcoming-events"][0].alt} /></article>
+    <article><img src={legacyMedia["/upcoming-events"][1].src} alt={legacyMedia["/upcoming-events"][1].alt} /><div><p class="legacy-event-date">May 16th–August 5th 2026</p><h2>TATTOOS AT THE<br />PORTLAND PICKLES<br />BASEBALL GAMES</h2><p>Come watch the Portland Pickles and get a pickle tattoo while you’re there!</p><p>There are different themes every night and we usually have new flash for each theme! But don’t worry, you can still peruse our massive catalogue of past pickle themes and choose a pickle that speaks to you! These game day tattoos are flash, no customs that day and arms and legs only please.</p><p>For more information, including game dates/themes or to book a past pickle <a href="/booking/">click here</a>!</p></div></article>
+  </section>
+  {upcoming.length > 0 && <section class="events-section cms-events">
+      <div class="events-list">
+        {upcoming.map((event) => (
+          <article class="event-card">
+            {event.data.image && <a href={`/upcoming-events/${event.id}/`}><img src={event.data.image} alt="" /></a>}
+            <div class="event-copy">
+              <p class="event-date">{formatDate(event.data.start)}</p>
+              <h2><a href={`/upcoming-events/${event.id}/`}>{event.data.title}</a></h2>
+              <p>{event.data.location}{event.data.address ? ` · ${event.data.address}` : ""}</p>
+              <p>{event.data.summary}</p>
+              <a class="button" href={`/upcoming-events/${event.id}/`}>EVENT DETAILS</a>
+            </div>
+          </article>
+        ))}
+      </div>
+  </section>}
+  {past.length > 0 && (
+    <section class="events-section events-archive">
+      <h2>PAST EVENTS</h2>
+      <ul>{past.map((event) => <li><a href={`/upcoming-events/${event.id}/`}>{event.data.title}</a> <span>{formatDate(event.data.start)}</span></li>)}</ul>
+    </section>
+  )}
+  {updates.length > 0 && (
+    <section class="events-section legacy-feed">
+      <h2>FROM THE ARCHIVE</h2>
+      <div class="legacy-grid">
+        {updates.map((post) => (
+          <article class="legacy-card">
+            {post.data.image && <a href={`/upcoming-events/archive/${post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "")}/`}><img src={post.data.image} alt="" loading="lazy" /></a>}
+            <p class="event-date">{new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(post.data.published_at)}</p>
+            <h3><a href={`/upcoming-events/archive/${post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "")}/`}>{post.data.title}</a></h3>
+            <p>{post.data.summary}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  )}
+</SiteLayout>

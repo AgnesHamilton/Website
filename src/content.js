@@ -35,7 +35,7 @@ export const pages = [
     nav: "Tattoos",
     title: "Tattoos | Agnes Hamilton Tattoos & Fine Art",
     description: "View tattoo work by Agnes Hamilton, a Portland tattoo artist specializing in bold custom designs.",
-    h1: "Tattoo Portfolio",
+    h1: "Tattoos",
     lede: "Colorful custom tattoos, detailed pieces, cover-ups, and reworks.",
     heroImage: sharedHero,
     sections: [
@@ -56,7 +56,7 @@ export const pages = [
     nav: "Cover-Ups",
     title: "Cover-Ups | Agnes Hamilton Tattoos & Fine Art",
     description: "Cover-up and rework tattoos by Agnes Hamilton in Portland, Oregon.",
-    h1: "Cover-Ups and Reworks",
+    h1: "Cover-Ups & Reworks",
     lede: "Thoughtful cover-up tattoos and refreshed older pieces.",
     heroImage: sharedHero,
     sections: [
@@ -124,16 +124,21 @@ export const pages = [
       {
         heading: "Artist Bio",
         body: [
-          "Agnes began her formal apprenticeship one year after earning her Bachelor's degree in Fine Art.",
-          "She appreciates many styles of art and tattooing, from bright, bold neotraditional work to fine, detailed portraiture.",
-          "For tattoo inquiries, use the booking page. For fine art inquiries, email info@agneshamilton.com.",
+          "Originally from New York, I have been basing my creative work out of Portland, Oregon since 2007 and have been a licensed, full-time working tattoo artist since 2014.",
+          "A lifelong love of art drove me to attend art school, and then fate drove me to tattooing! I began my formal apprenticeship just one year after earning my Bachelor's degree in Fine Art.",
+          "I appreciate all styles of art and all styles of tattooing, which allows me to adapt my skills to meet almost any need. From bright, bold neotraditional to fine, detailed portraiture and everything in between.",
+          "I also enjoy and excel at cover-ups and reworking older tattoos. Although I most enjoy making custom tattoos that mix the bold lines and colors of neotraditional with the soft details of realism.",
+          "I currently tattoo full time out of <a href=\"https://www.anatomytattoo.com/\">Anatomy Tattoo</a>, located at 3032 NE Broadway, Portland, OR 97232.",
+          "Outside of tattooing, I enjoy painting, crafting, being outdoors and spending time with my family and two sweet rescue pups.",
+          "For tattoo inquiries, fill out the form on the <a href=\"/booking/\">Booking page</a>.",
+          "For fine art inquiries, email me directly at <a href=\"mailto:info@agneshamilton.com\">INFO@AGNESHAMILTON.COM</a>.",
         ],
       },
     ],
   },
   {
     path: "/upcoming-events",
-    nav: "Events",
+    nav: "Upcoming Events",
     title: "Upcoming Events | Agnes Hamilton Tattoos & Fine Art",
     description: "Upcoming events, guest spots, tattoo expos, and announcements from Agnes Hamilton.",
     h1: "Upcoming Events",
@@ -153,7 +158,7 @@ export const pages = [
     nav: "FAQ",
     title: "FAQ | Agnes Hamilton Tattoos & Fine Art",
     description: "Frequently asked questions about booking, tattoo appointments, cover-ups, and consultations with Agnes Hamilton.",
-    h1: "FAQ",
+    h1: "Frequently Asked Questions",
     lede: "Answers for booking, consults, deposits, appointments, and tattoo prep.",
     heroImage: sharedHero,
     sections: [

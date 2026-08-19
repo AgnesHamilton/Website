@@ -1,0 +1,132 @@
+media:
+  - name: event_images
+    label: Event images
+    input: public/images/events
+    output: /images/events
+    categories: [image]
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
+
+content:
+  - name: events
+    label: Upcoming Events
+    type: collection
+    path: src/content/events
+    format: yaml-frontmatter
+    filename:
+      template: "{fields.start}-{primary}.md"
+      field: false
+    view:
+      fields: [title, start, location, published]
+      primary: title
+      sort: [start, title]
+      search: [title, location, summary]
+      default:
+        sort: start
+        order: asc
+    fields:
+      - name: title
+        label: Event title
+        type: string
+        required: true
+      - name: start
+        label: Start date and time
+        type: date
+        required: true
+        options:
+          time: true
+          format: yyyy-MM-dd'T'HH:mm
+      - name: end
+        label: End date and time
+        type: date
+        default: ""
+        options:
+          time: true
+          format: yyyy-MM-dd'T'HH:mm
+      - name: location
+        label: Location
+        type: string
+        required: true
+      - name: address
+        label: Address
+        type: string
+      - name: summary
+        label: Short summary
+        type: text
+        required: true
+      - name: event_url
+        label: Tickets or event link
+        type: string
+      - name: image
+        label: Event image
+        type: image
+        options:
+          media: event_images
+          path: public/images/events
+          rename: safe
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: body
+        label: Full event details
+        type: rich-text
+        options:
+          media: event_images
+          path: public/images/events
+          rename: safe
+          switcher: false
+  - name: updates
+    label: News & Legacy Posts
+    type: collection
+    path: src/content/updates
+    format: yaml-frontmatter
+    filename:
+      template: "{fields.published_at}-{primary}.md"
+      field: false
+    view:
+      fields: [title, published_at, published]
+      primary: title
+      sort: [published_at, title]
+      search: [title, summary]
+      default:
+        sort: published_at
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: published_at
+        label: Publish date
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+      - name: summary
+        label: Short summary
+        type: text
+        required: true
+      - name: image
+        label: Lead image
+        type: image
+        options:
+          media: event_images
+          path: public/images/events
+          rename: safe
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+      - name: old_path
+        label: Original Wix path
+        type: string
+        readonly: true
+      - name: body
+        label: Post body
+        type: rich-text
+        options:
+          media: event_images
+          path: public/images/events
+          rename: safe
+          switcher: false

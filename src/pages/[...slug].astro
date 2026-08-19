@@ -1,33 +1,111 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
 import { pages } from "../content.js";
+import legacyMedia from "../legacy-media.json";
 
 export function getStaticPaths() {
-  return pages.map((page) => ({
+  return pages.filter((page) => page.path !== "/upcoming-events").map((page) => ({
     params: { slug: page.path === "/" ? undefined : page.path.slice(1) },
     props: { page },
   }));
 }
 
 const { page } = Astro.props;
+const pageImages = legacyMedia[page.path] || [];
+const coverCopy = [
+  "Sometimes we fall a little out of love with our old tattoos and sometimes they just need a little more love. Either way, I’ve got you covered.",
+  "From just a bit of sprucing up to full out overhauls I want you to leave our time together with a tattoo that you are proud to show off! There are often more possibilities than you might think, so come in with an open mind but also be prepared with ideas of what you would like to see on your skin.",
+  "For both cover-ups and reworks, in-person consultations are typically required.",
+];
+const faq = [
+  ["Where are you located?", `I currently work at <a href="https://www.anatomytattoo.com/">Anatomy Tattoo</a>, which is located at 3021 NE Broadway, PDX, 97232.`],
+  ["Parking", `We’re conveniently located right across Broadway Street from Fred Meyer. For parking:<br>~ Short-Term Parking: There’s two-hour parking available on 32nd Avenue, next to Sweet Basil Thai Cuisine.<br>~ Unlimited Parking: The neighborhood right behind us on NE Schuyler Street offers plenty of street parking with no time limit.`],
+  ["Masks", `As of April 3rd 2023 masks are no longer required in the studio for <em>most</em> tattoos. If I need to be super close to your face for the entirety of that tattoo I may ask that you wear one. If you feel more comfortable with masks for your tattoo please just let me know and I will be happy to accommodate. Masks will be provided if you forget one.`],
+  ["What to expect when I come for my consultation and how to prepare", `Please come ready for your consultation and do your homework beforehand. If you have reference photos, tattoos you admire, tattoo style images or anything specific to your idea please bring it with you, along with a deposit for a drawing.<br><br>It’s much easier to interpret terms like “peony flowers with jasmine, and anatomical heart” than “I want some flowers with a heart.” Try your best to really communicate your idea—you don’t have to know the right lingo, just be able to explain what you like about the reference images you have.`],
+  ["How to prepare for a tattoo", `Please arrive clean/showered, fed, healthy and sober. Do <strong>NOT</strong> come in under any influence, hungover or sick. If you feel like you may be sick or getting sick, you will only make the process worse as well as putting our entire studio and other clients at risk of illness. It is best to contact me or the studio directly if this happens.<br>If you are getting tattooed on an area that requires you to remove clothing you are welcome to wear a swimsuit or request a privacy screen.`],
+  ["Cost", `Tattoos are priced either by the hour or by the piece, at my discretion. My minimum price is $150 (roughly something simple the size of a quarter), my hourly rate is $250; however, for cover-ups and specialty pieces I charge an hourly rate of $300. The $150 minimum does not apply to tattoos on the hands, fingers, neck, or feet.<br>Touch ups are complimentary for 12 months after your initial tattoo. Beyond that time you will need to pay the set-up fee of $100.`],
+  ["Payment Options", `Cash is preferred, but credit cards are accepted as well. Please note that credit card charges will have an additional processing fee.`],
+  ["Drawing Deposits", `A <strong><em>non-refundable deposit</em></strong> is required to begin the drawing process. Most deposits will cost $200, depending on size and complexity of the tattoo. Your deposit will be applied towards the final cost/last session of your tattoo.<br>If a calendar year or more passes between start to finish tattoo sessions, a new deposit will be required to book another appointment.`],
+  ["What if I don’t like the drawing? Can I change it?", `I am happy to make small adjustments to your design the day of your appointment. If there are any major changes you’d like to make we will potentially need to reschedule. Extreme changes, like a complete change of your idea, will require an additional deposit. If it seems that we cannot agree on a design and I have already drawn for the tattoo, the deposit will be considered a drawing fee.`],
+  ["Can I see the drawing ahead of time?", `Sorry, but no. Drawings will not be sent out before your appointment time. I appreciate your trust!`],
+  ["Gift Certificates", `They make great gifts! You can purchase one with me directly or on my <a href="/shop/">web-store here</a>.`],
+  ["Aftercare", `There are two types of bandages that I use for fresh tattoos; the aftercare is the same for both. Only the wait time to remove the bandage is different.<br><br>For Saniderm/DermShield, wait roughly 24 hours to remove the bandage. For traditional “meat pack” bandages, leave the bandage on for 4–8 hours.<br><br>After the bandage has been removed, wash thoroughly using only your hand and a baby-mild liquid soap. Dry with a clean towel, let air dry for a few minutes, then apply a small amount of coconut oil, plain white lotion, or whatever natural hydration you prefer. Listen to your body, and please don’t hesitate to ask if you have questions.`],
+];
 ---
 
 <SiteLayout page={page}>
-  <section class="hero">
-    <div class="hero-copy">
-      <h1>{page.h1}</h1>
-      <p>{page.lede}</p>
-      <div class="actions">
-        <a class="button primary" href="/booking/">Book a Tattoo</a>
-        <a class="button" href="/tattoos/">View Tattoos</a>
-      </div>
-    </div>
-    <figure class="hero-media">
-      <img src={page.heroImage.src} alt={page.heroImage.alt} />
-    </figure>
-  </section>
+  {page.path === "/" && pageImages.length > 0 ? (
+    <section class="home-original">
+      <img src={pageImages[0].src} alt={pageImages[0].alt || "Agnes Hamilton tattoo work"} />
+      <h1><span>TATTOOS BY</span>AGNES<br />HAMILTON</h1>
+    </section>
+  ) : !["/about", "/shop"].includes(page.path) && (
+    <section class="page-title">
+      <h1>{page.h1.toUpperCase()}</h1>
+    </section>
+  )}
 
-  {page.sections.map((section) => (
+  {page.path === "/cover-ups" && <section class="cover-intro">{coverCopy.map((text) => <p>{text}</p>)}</section>}
+
+  {pageImages.length > 0 && !["/about","/","/shop"].includes(page.path) && (
+    <section class:list={["legacy-gallery", `legacy-gallery--${page.path.slice(1) || "home"}`]} aria-label={`${page.h1} gallery`}>
+      {pageImages.map((image, index) => <img src={image.src} alt={image.alt || `${page.h1} image ${index + 1}`} loading={index < 6 ? "eager" : "lazy"} />)}
+    </section>
+  )}
+
+  {page.path === "/about" && pageImages.length > 0 && (
+    <section class="about-original">
+      <div class="about-original__copy">
+        {page.sections[0].body.map((paragraph) => <p set:html={paragraph} />)}
+      </div>
+      <img src={pageImages[0].src} alt={pageImages[0].alt || "Agnes Hamilton"} />
+    </section>
+  )}
+
+  {page.path === "/shop" && pageImages.length >= 2 && (
+    <section class="shop-original">
+      <div class="gift-copy"><h1>GIFT CERTIFICATES</h1><p>Tattoos make great gifts!</p><p>Pick one up in person or<br />click below to purchase online.<br />Gift certificates can be mailed to you or sent digitally.</p><a href="mailto:info@agneshamilton.com?subject=Gift%20certificate">BUY A GIFT CERTIFICATE</a></div>
+      <img class="gift-image" src={pageImages[0].src} alt={pageImages[0].alt} />
+      <div class="hoodie-card"><img src={pageImages[1].src} alt={pageImages[1].alt} /><div><h2>Wolf &amp; Sheep Hoodies</h2><p>Sizes XS–3XL available</p><h3>Super cozy! $50</h3><ul><li>80/20 ring-spun cotton/polyester blend fleece</li><li>Jersey lined hood</li><li>Split-stitched double-needle sewing on all seams</li><li>Twill neck tape</li><li>Ribbing at cuffs &amp; waistband</li><li>Metal eyelets and zipper</li></ul><a href="mailto:info@agneshamilton.com?subject=Hoodie%20order">Order Here</a></div></div>
+    </section>
+  )}
+
+  {page.path === "/faq" && <section class="faq-original">{faq.map(([heading,body]) => <article><h2>{heading}</h2><p set:html={body} /></article>)}</section>}
+
+  {page.path === "/booking" && (
+    <section class="booking-form-section">
+      <div class="booking-intro">
+        <h2>BOOK A TATTOO</h2>
+        <p>Tell Agnes about your tattoo idea. Please include as much detail as you can so she can review the project and follow up with next steps.</p>
+        <p>For reference images, include links from Google Drive, Dropbox, Pinterest, or another shareable source.</p>
+      </div>
+
+      <form class="booking-form" name="tattoo-booking" method="POST" action="/booking/success/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="tattoo-booking" />
+        <p class="form-hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
+
+        <div class="form-grid">
+          <label>NAME <input type="text" name="name" autocomplete="name" required /></label>
+          <label>EMAIL <input type="email" name="email" autocomplete="email" required /></label>
+          <label>PHONE <input type="tel" name="phone" autocomplete="tel" /></label>
+          <label>PRONOUNS <input type="text" name="pronouns" /></label>
+          <label class="form-wide">TATTOO IDEA <textarea name="tattoo-idea" rows="6" required></textarea></label>
+          <label>PLACEMENT <input type="text" name="placement" required /></label>
+          <label>APPROXIMATE SIZE <input type="text" name="size" placeholder="For example: 6 × 8 inches" required /></label>
+          <label>COLOR OR BLACK &amp; GRAY <input type="text" name="color-preference" /></label>
+          <label>BUDGET <input type="text" name="budget" /></label>
+          <label class="form-wide">AVAILABILITY <textarea name="availability" rows="3" placeholder="Days and times that generally work for you"></textarea></label>
+          <label class="form-wide">REFERENCE IMAGE LINKS <textarea name="reference-links" rows="3" placeholder="Paste one or more shareable links"></textarea></label>
+          <label class="form-wide">ANYTHING ELSE? <textarea name="additional-notes" rows="4"></textarea></label>
+        </div>
+
+        <label class="form-consent"><input type="checkbox" name="consent" required /> I understand that submitting this form is a request and does not guarantee an appointment.</label>
+        <button type="submit">SEND BOOKING REQUEST</button>
+      </form>
+    </section>
+  )}
+
+  {page.path !== "/booking" && page.path !== "/about" && page.path !== "/faq" && pageImages.length === 0 && page.sections.map((section) => (
     <section class={section.kind || "section"}>
       <div class="section-copy">
         <h2>{section.heading}</h2>
