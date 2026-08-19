@@ -36,8 +36,8 @@ const faq = [
 <SiteLayout page={page}>
   {page.path === "/" && pageImages.length > 0 ? (
     <section class="home-original">
-      <img src={pageImages[0].src} alt={pageImages[0].alt || "Agnes Hamilton tattoo work"} />
       <h1><span>TATTOOS BY</span>AGNES<br />HAMILTON</h1>
+      <img src={pageImages[0].src} alt={pageImages[0].alt || "Agnes Hamilton tattoo work"} />
     </section>
   ) : !["/about", "/shop"].includes(page.path) && (
     <section class="page-title">

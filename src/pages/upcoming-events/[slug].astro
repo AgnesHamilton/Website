@@ -10,7 +10,25 @@ export async function getStaticPaths() {
 const { event } = Astro.props;
 const { Content } = await render(event);
 const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short" }).format(date);
-const page = { path: "/upcoming-events", title: `${event.data.title} | Agnes Hamilton`, description: event.data.summary };
+const page = {
+  path: "/upcoming-events",
+  canonicalPath: `/upcoming-events/${event.id}`,
+  title: `${event.data.title} | Agnes Hamilton`,
+  description: event.data.summary,
+  image: event.data.image,
+  ogType: "article",
+  structuredData: {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.data.title,
+    description: event.data.summary,
+    startDate: event.data.start.toISOString(),
+    ...(event.data.end ? { endDate: event.data.end.toISOString() } : {}),
+    image: event.data.image ? [new URL(event.data.image, Astro.site).href] : undefined,
+    url: new URL(`/upcoming-events/${event.id}/`, Astro.site).href,
+    location: { "@type": "Place", name: event.data.location, address: event.data.address || event.data.location },
+  },
+};
 ---
 
 <SiteLayout page={page}>

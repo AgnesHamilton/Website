@@ -3,9 +3,28 @@ import { pages } from "../content.js";
 import { css } from "../styles.js";
 
 const { page } = Astro.props;
-const canonical = new URL(page.path === "/" ? "/" : `${page.path}/`, Astro.site);
+const canonicalPath = page.canonicalPath || page.path;
+const canonical = new URL(canonicalPath === "/" ? "/" : `${canonicalPath.replace(/\/$/, "")}/`, Astro.site);
+const socialImage = new URL(page.image || "https://static.wixstatic.com/media/41554d_32408e731bb247e2b583c0320a2d4424~mv2.jpg", Astro.site);
 const navItems = pages.filter((item) => item.nav);
 const pageHref = (path) => path === "/" ? "/" : `${path}/`;
+const structuredData = page.structuredData || {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "TattooParlor"],
+  name: "Agnes Hamilton Tattoos & Fine Art",
+  url: "https://agneshamilton.com/",
+  image: socialImage.href,
+  email: "info@agneshamilton.com",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "3032 NE Broadway",
+    addressLocality: "Portland",
+    addressRegion: "OR",
+    postalCode: "97232",
+    addressCountry: "US",
+  },
+  sameAs: ["https://www.instagram.com/aggie.q.tattoo/", "https://www.facebook.com/agneshamiltontattoos/"],
+};
 ---
 
 <!doctype html>
@@ -16,7 +35,19 @@ const pageHref = (path) => path === "/" ? "/" : `${path}/`;
     <meta name="generator" content={Astro.generator} />
     <title>{page.title}</title>
     <meta name="description" content={page.description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={page.ogType || "website"} />
+    <meta property="og:site_name" content="Agnes Hamilton Tattoos & Fine Art" />
+    <meta property="og:title" content={page.title} />
+    <meta property="og:description" content={page.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={page.title} />
+    <meta name="twitter:description" content={page.description} />
+    <meta name="twitter:image" content={socialImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <style is:global set:html={css} />
   </head>
