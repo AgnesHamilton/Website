@@ -131,7 +131,7 @@ export const pages = [
           "I currently tattoo full time out of <a href=\"https://www.anatomytattoo.com/\">Anatomy Tattoo</a>, located at 3021 NE Broadway, Portland, OR 97232.",
           "Outside of tattooing, I enjoy painting, crafting, being outdoors and spending time with my family and two sweet rescue pups.",
           "For tattoo inquiries, fill out the form on the <a href=\"/booking/\">Booking page</a>.",
-          "For fine art inquiries, email me directly at <a href=\"mailto:info@agneshamilton.com\">INFO@AGNESHAMILTON.COM</a>.",
+          "For fine art inquiries, email me directly at <a href=\"mailto:info@agneshamilton.com\">info@agneshamilton.com</a>.",
         ],
       },
     ],

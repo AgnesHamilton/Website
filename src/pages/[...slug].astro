@@ -77,12 +77,12 @@ const faq = [
   {page.path === "/booking" && (
     <section class="booking-form-section">
       <div class="booking-intro">
-        <h2>BOOK A TATTOO</h2>
         <p>Tell Agnes about your tattoo idea. Please include as much detail as you can so she can review the project and follow up with next steps.</p>
-        <p>For reference images, include links from Google Drive, Dropbox, Pinterest, or another shareable source.</p>
+        <p>Please upload reference images directly in the form. If you are requesting a cover-up, rework, or touch-up, you will also need to upload a clear, well-lit photo of the existing tattoo.</p>
+        <p>New tattoos are billed at $250 per hour. Cover-ups, reworks, and specialty tattoos are billed at $300 per hour.</p>
       </div>
 
-      <form class="booking-form" name="tattoo-booking" method="POST" action="/booking/success/" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="booking-form" name="tattoo-booking" method="POST" action="/booking/success/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="tattoo-booking" />
         <p class="form-hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
@@ -91,19 +91,71 @@ const faq = [
           <label>EMAIL <input type="email" name="email" autocomplete="email" required /></label>
           <label>PHONE <input type="tel" name="phone" autocomplete="tel" /></label>
           <label>PRONOUNS <input type="text" name="pronouns" /></label>
+          <fieldset class="form-wide form-options">
+            <legend>WHAT WOULD YOU LIKE TO BOOK?</legend>
+            <label><input type="radio" name="tattoo-type" value="New tattoo" required /> New tattoo</label>
+            <label><input type="radio" name="tattoo-type" value="Cover-up or rework" /> Cover-up or rework</label>
+          </fieldset>
+          <fieldset class="form-wide form-options">
+            <legend>IS THIS A TOUCH-UP?</legend>
+            <label><input type="radio" name="touch-up-type" value="No, this is not a touch-up" required /> No, this is not a touch-up</label>
+            <label><input type="radio" name="touch-up-type" value="Touch-up of a tattoo by Agnes" /> Yes, Agnes did the original tattoo</label>
+            <label><input type="radio" name="touch-up-type" value="Touch-up of another artist's work" /> Yes, another artist did the original tattoo</label>
+          </fieldset>
+          <div class="form-wide cover-photo-field" hidden>
+            <label for="existing-tattoo-photo">PHOTO OF THE EXISTING TATTOO <span aria-hidden="true">*</span></label>
+            <p>Please upload a clear, well-lit photo of the tattoo that needs to be covered or touched up.</p>
+            <input id="existing-tattoo-photo" type="file" name="existing-tattoo-photo" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" />
+          </div>
           <label class="form-wide">TATTOO IDEA <textarea name="tattoo-idea" rows="6" required></textarea></label>
           <label>PLACEMENT <input type="text" name="placement" required /></label>
           <label>APPROXIMATE SIZE <input type="text" name="size" placeholder="For example: 6 × 8 inches" required /></label>
           <label>COLOR OR BLACK &amp; GRAY <input type="text" name="color-preference" /></label>
           <label>BUDGET <input type="text" name="budget" /></label>
-          <label class="form-wide">AVAILABILITY <textarea name="availability" rows="3" placeholder="Days and times that generally work for you"></textarea></label>
-          <label class="form-wide">REFERENCE IMAGE LINKS <textarea name="reference-links" rows="3" placeholder="Paste one or more shareable links"></textarea></label>
+          <fieldset class="form-wide form-options availability-options">
+            <legend>WHICH DAYS GENERALLY WORK FOR YOU?</legend>
+            <p>Agnes works Monday, Thursday, Friday, and Saturday from 11:00 AM–7:00 PM. Select all that apply.</p>
+            <label><input type="checkbox" name="available-monday" value="Monday" /> Monday</label>
+            <label><input type="checkbox" name="available-thursday" value="Thursday" /> Thursday</label>
+            <label><input type="checkbox" name="available-friday" value="Friday" /> Friday</label>
+            <label><input type="checkbox" name="available-saturday" value="Saturday" /> Saturday</label>
+          </fieldset>
+          <fieldset class="form-wide reference-upload-fields">
+            <legend>REFERENCE IMAGES</legend>
+            <p>Upload up to three reference images. The combined form submission must be under 8 MB.</p>
+            <label>REFERENCE IMAGE 1 <input type="file" name="reference-image-1" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
+            <label>REFERENCE IMAGE 2 <input type="file" name="reference-image-2" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
+            <label>REFERENCE IMAGE 3 <input type="file" name="reference-image-3" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
+          </fieldset>
           <label class="form-wide">ANYTHING ELSE? <textarea name="additional-notes" rows="4"></textarea></label>
         </div>
 
         <label class="form-consent"><input type="checkbox" name="consent" required /> I understand that submitting this form is a request and does not guarantee an appointment.</label>
         <button type="submit">SEND BOOKING REQUEST</button>
       </form>
+
+      <script>
+        const bookingForm = document.querySelector(".booking-form");
+        const photoField = bookingForm?.querySelector(".cover-photo-field");
+        const photoInput = bookingForm?.querySelector("#existing-tattoo-photo");
+
+        const updatePhotoRequirement = () => {
+          if (!(bookingForm instanceof HTMLFormElement) || !(photoField instanceof HTMLElement) || !(photoInput instanceof HTMLInputElement)) return;
+
+          const tattooType = new FormData(bookingForm).get("tattoo-type");
+          const touchUpType = new FormData(bookingForm).get("touch-up-type");
+          const needsPhoto = tattooType === "Cover-up or rework" || (typeof touchUpType === "string" && touchUpType !== "No, this is not a touch-up");
+
+          photoField.hidden = !needsPhoto;
+          photoInput.required = needsPhoto;
+          if (!needsPhoto) photoInput.value = "";
+        };
+
+        bookingForm?.querySelectorAll('input[name="tattoo-type"], input[name="touch-up-type"]').forEach((input) => {
+          input.addEventListener("change", updatePhotoRequirement);
+        });
+        updatePhotoRequirement();
+      </script>
     </section>
   )}
 

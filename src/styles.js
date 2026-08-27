@@ -68,6 +68,20 @@ p { margin:0 0 18px; font:400 14px/1.6 Raleway, Arial, sans-serif; }
 .booking-form input:not([type="checkbox"]), .booking-form textarea { width:100%; border:0; border-bottom:1px solid #777; border-radius:0; padding:9px 2px; color:var(--ink); background:#fff; font:400 14px/1.45 Raleway,Arial,sans-serif; }
 .booking-form textarea { border:1px solid #777; padding:10px; resize:vertical; }
 .booking-form input:focus, .booking-form textarea:focus { outline:2px solid var(--active); outline-offset:2px; }
+.form-options { margin:0; padding:0 0 18px; border:0; border-bottom:1px solid #aaa; }
+.form-options legend { margin-bottom:12px; font-size:11px; line-height:1.3; letter-spacing:.03em; }
+.booking-form .form-options label { display:flex; align-items:center; gap:9px; margin:8px 0; font:400 14px/1.4 Raleway,Arial,sans-serif; letter-spacing:0; text-transform:none; cursor:pointer; }
+.booking-form .form-options input[type="radio"], .booking-form .form-options input[type="checkbox"] { flex:0 0 auto; width:16px; height:16px; margin:0; accent-color:var(--active); }
+.availability-options p { margin:0 0 12px; font-size:13px; }
+.cover-photo-field { padding:16px; border:1px solid #777; }
+.cover-photo-field[hidden] { display:none; }
+.cover-photo-field p { margin:6px 0 14px; font-size:13px; }
+.booking-form .cover-photo-field input[type="file"] { width:100%; padding:10px; border:1px dashed #777; font:400 13px/1.4 Raleway,Arial,sans-serif; }
+.reference-upload-fields { margin:0; padding:16px; border:1px solid #777; }
+.reference-upload-fields legend { padding:0 5px; font-size:11px; line-height:1.3; letter-spacing:.03em; }
+.reference-upload-fields p { margin:0 0 14px; font-size:13px; }
+.booking-form .reference-upload-fields label { margin-top:12px; }
+.booking-form .reference-upload-fields input[type="file"] { width:100%; padding:10px; border:1px dashed #777; font:400 13px/1.4 Raleway,Arial,sans-serif; }
 .form-wide { grid-column:1/-1; }
 .form-consent { display:flex!important; grid-template-columns:auto 1fr; align-items:start; margin:26px 0; font-size:12px!important; }
 .booking-form button { min-height:46px; padding:0 24px; border:1px solid var(--ink); background:var(--active); color:#fff; font:600 12px/1 Arial,sans-serif; cursor:pointer; }
