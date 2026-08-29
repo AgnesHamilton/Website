@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../layouts/SiteLayout.astro";
 import ResponsiveImage from "../components/ResponsiveImage.astro";
-import legacyMedia from "../legacy-media.json";
 
 const page = {
   path: "/upcoming-events",
@@ -20,18 +19,17 @@ const updates = (await getCollection("updates"))
   .filter((post) => post.data.published)
   .sort((a, b) => b.data.published_at.valueOf() - a.data.published_at.valueOf());
 const formatEventDate = (event) => {
-  const formatter = new Intl.DateTimeFormat("en-US", event.data.all_day ? { dateStyle: "long" } : { dateStyle: "long", timeStyle: "short" });
+  const formatter = new Intl.DateTimeFormat("en-US", event.data.all_day
+    ? { dateStyle: "long", timeZone: "America/Los_Angeles" }
+    : { dateStyle: "long", timeStyle: "short", timeZone: "America/Los_Angeles" });
   return event.data.end ? formatter.formatRange(event.data.start, event.data.end) : formatter.format(event.data.start);
 };
 ---
 
 <SiteLayout page={page}>
   <section class="events-legacy-title"><h1>EVENTS, RAFFLES &amp;<br />FUNDRAISERS</h1></section>
-  <section class="events-legacy">
-    <article><div><p class="legacy-event-date">May 23 + 24, 2026</p><h2>CRYPTID EXPO</h2><p>At the Washington State Fairgrounds<br />110 9th Ave, Puyallup, WA</p><p>I will be at the Cryptid Expo all weekend with some of my amazingly talented friends from Anatomy. Fun Cryptid flash will be posted soon!<br /><a href="https://cryptidexpo.com/">Get Tickets here!</a></p><strong>MORE INFO COMING SOON!</strong></div><ResponsiveImage src={legacyMedia["/upcoming-events"][0].src} alt="Cryptid Expo tattoo event artwork" sizes="(max-width: 700px) 100vw, 490px" /></article>
-    <article><ResponsiveImage src={legacyMedia["/upcoming-events"][1].src} alt="Portland Pickles baseball tattoo event artwork" sizes="(max-width: 700px) 100vw, 490px" /><div><p class="legacy-event-date">May 16th–August 5th 2026</p><h2>TATTOOS AT THE<br />PORTLAND PICKLES<br />BASEBALL GAMES</h2><p>Come watch the Portland Pickles and get a pickle tattoo while you’re there!</p><p>There are different themes every night and we usually have new flash for each theme! But don’t worry, you can still peruse our massive catalogue of past pickle themes and choose a pickle that speaks to you! These game day tattoos are flash, no customs that day and arms and legs only please.</p><p>For more information, including game dates/themes or to book a past pickle <a href="/booking/">click here</a>!</p></div></article>
-  </section>
   {upcoming.length > 0 && <section class="events-section cms-events">
+      <h2>UPCOMING EVENTS</h2>
       <div class="events-list">
         {upcoming.map((event) => (
           <article class="event-card">

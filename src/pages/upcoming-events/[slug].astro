@@ -10,7 +10,9 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const { Content } = await render(event);
-const dateFormatter = new Intl.DateTimeFormat("en-US", event.data.all_day ? { dateStyle: "long" } : { dateStyle: "long", timeStyle: "short" });
+const dateFormatter = new Intl.DateTimeFormat("en-US", event.data.all_day
+  ? { dateStyle: "long", timeZone: "America/Los_Angeles" }
+  : { dateStyle: "long", timeStyle: "short", timeZone: "America/Los_Angeles" });
 const formattedDate = event.data.end ? dateFormatter.formatRange(event.data.start, event.data.end) : dateFormatter.format(event.data.start);
 const page = {
   path: "/upcoming-events",
