@@ -26,6 +26,7 @@ const updates = defineCollection({
     published_at: z.coerce.date(),
     summary: z.string(),
     image: z.string().optional(),
+    image_alt: z.string().optional(),
     old_path: z.string().optional(),
     published: z.boolean().default(true),
   }),

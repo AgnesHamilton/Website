@@ -57,8 +57,8 @@ const formatEventDate = (event) => {
       <div class="legacy-grid">
         {updates.map((post) => (
           <article class="legacy-card">
-            {post.data.image && <a href={`/upcoming-events/archive/${post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "")}/`}><ResponsiveImage src={post.data.image} alt={`${post.data.title} event artwork`} sizes="(max-width: 700px) 100vw, 315px" /></a>}
-            <p class="event-date">{new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(post.data.published_at)}</p>
+            {post.data.image && <a href={`/upcoming-events/archive/${post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "")}/`}><ResponsiveImage src={post.data.image} alt={post.data.image_alt || `${post.data.title} event artwork`} sizes="(max-width: 700px) 100vw, 315px" /></a>}
+            <p class="event-date">{new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeZone: "UTC" }).format(post.data.published_at)}</p>
             <h3><a href={`/upcoming-events/archive/${post.id.replace(/^\d{4}-\d{2}-\d{2}-/, "")}/`}>{post.data.title}</a></h3>
             <p>{post.data.summary}</p>
           </article>
