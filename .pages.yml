@@ -43,6 +43,10 @@ content:
         options:
           time: true
           format: yyyy-MM-dd'T'HH:mm
+      - name: all_day
+        label: All-day event
+        type: boolean
+        default: false
       - name: location
         label: Location
         type: string

@@ -10,13 +10,15 @@ export async function getStaticPaths() {
 
 const { event } = Astro.props;
 const { Content } = await render(event);
-const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short" }).format(date);
+const dateFormatter = new Intl.DateTimeFormat("en-US", event.data.all_day ? { dateStyle: "long" } : { dateStyle: "long", timeStyle: "short" });
+const formattedDate = event.data.end ? dateFormatter.formatRange(event.data.start, event.data.end) : dateFormatter.format(event.data.start);
 const page = {
   path: "/upcoming-events",
   canonicalPath: `/upcoming-events/${event.id}`,
   title: `${event.data.title} | Agnes Hamilton`,
   description: event.data.summary,
   image: event.data.image,
+  imageAlt: event.data.image_alt,
   ogType: "article",
   structuredData: {
     "@context": "https://schema.org",
@@ -25,9 +27,20 @@ const page = {
     description: event.data.summary,
     startDate: event.data.start.toISOString(),
     ...(event.data.end ? { endDate: event.data.end.toISOString() } : {}),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: event.data.location === "Online fundraiser"
+      ? "https://schema.org/OnlineEventAttendanceMode"
+      : "https://schema.org/OfflineEventAttendanceMode",
     image: event.data.image ? [new URL(event.data.image, Astro.site).href] : undefined,
     url: new URL(`/upcoming-events/${event.id}/`, Astro.site).href,
-    location: { "@type": "Place", name: event.data.location, address: event.data.address || event.data.location },
+    location: event.data.location === "Online fundraiser"
+      ? { "@type": "VirtualLocation", url: event.data.event_url }
+      : { "@type": "Place", name: event.data.location, address: event.data.address || event.data.location },
+    organizer: event.data.organizer ? {
+      "@type": "Organization",
+      name: event.data.organizer,
+      ...(event.data.event_url ? { url: event.data.event_url } : {}),
+    } : undefined,
   },
 };
 ---
@@ -36,9 +49,9 @@ const page = {
   <article class="event-detail">
     <a class="event-back" href="/upcoming-events/">← ALL EVENTS</a>
     <h1>{event.data.title}</h1>
-    <p class="event-date">{formatDate(event.data.start)}</p>
+    <p class="event-date">{formattedDate}</p>
     <p>{event.data.location}{event.data.address ? ` · ${event.data.address}` : ""}</p>
-    {event.data.image && <ResponsiveImage src={event.data.image} alt={`${event.data.title} event artwork`} sizes="(max-width: 820px) 100vw, 820px" width={1280} loading="eager" fetchpriority="high" />}
+    {event.data.image && <ResponsiveImage src={event.data.image} alt={event.data.image_alt || `${event.data.title} event artwork by Agnes Hamilton`} sizes="(max-width: 820px) 100vw, 820px" width={1280} loading="eager" fetchpriority="high" />}
     <div class="event-body"><Content /></div>
     {event.data.event_url && <a class="button" href={event.data.event_url}>EVENT INFORMATION</a>}
   </article>

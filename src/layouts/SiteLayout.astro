@@ -44,12 +44,12 @@ const structuredData = page.structuredData || {
     <meta property="og:description" content={page.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content={`${page.title} — Agnes Hamilton Tattoos & Fine Art`} />
+    <meta property="og:image:alt" content={page.imageAlt || `${page.title} — Agnes Hamilton Tattoos & Fine Art`} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={page.title} />
     <meta name="twitter:description" content={page.description} />
     <meta name="twitter:image" content={socialImage} />
-    <meta name="twitter:image:alt" content={`${page.title} — Agnes Hamilton Tattoos & Fine Art`} />
+    <meta name="twitter:image:alt" content={page.imageAlt || `${page.title} — Agnes Hamilton Tattoos & Fine Art`} />
     <link rel="preconnect" href="https://static.wixstatic.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

@@ -7,7 +7,7 @@ import legacyMedia from "../legacy-media.json";
 const page = {
   path: "/upcoming-events",
   title: "Upcoming Events | Agnes Hamilton Tattoos & Fine Art",
-  description: "Upcoming events, guest spots, tattoo expos, and announcements from Agnes Hamilton.",
+  description: "Find upcoming Portland tattoo events, flash days, fundraisers and convention appearances with tattoo artist Agnes Hamilton and Anatomy Tattoo.",
 };
 
 const now = new Date();
@@ -19,7 +19,10 @@ const past = allEvents.filter((event) => (event.data.end || event.data.start) < 
 const updates = (await getCollection("updates"))
   .filter((post) => post.data.published)
   .sort((a, b) => b.data.published_at.valueOf() - a.data.published_at.valueOf());
-const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long", timeStyle: "short" }).format(date);
+const formatEventDate = (event) => {
+  const formatter = new Intl.DateTimeFormat("en-US", event.data.all_day ? { dateStyle: "long" } : { dateStyle: "long", timeStyle: "short" });
+  return event.data.end ? formatter.formatRange(event.data.start, event.data.end) : formatter.format(event.data.start);
+};
 ---
 
 <SiteLayout page={page}>
@@ -32,9 +35,9 @@ const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long
       <div class="events-list">
         {upcoming.map((event) => (
           <article class="event-card">
-            {event.data.image && <a href={`/upcoming-events/${event.id}/`}><ResponsiveImage src={event.data.image} alt={`${event.data.title} event`} sizes="(max-width: 700px) 100vw, 330px" /></a>}
+            {event.data.image && <a href={`/upcoming-events/${event.id}/`}><ResponsiveImage src={event.data.image} alt={event.data.image_alt || `${event.data.title} event artwork by Agnes Hamilton`} sizes="(max-width: 700px) 100vw, 330px" /></a>}
             <div class="event-copy">
-              <p class="event-date">{formatDate(event.data.start)}</p>
+              <p class="event-date">{formatEventDate(event)}</p>
               <h2><a href={`/upcoming-events/${event.id}/`}>{event.data.title}</a></h2>
               <p>{event.data.location}{event.data.address ? ` · ${event.data.address}` : ""}</p>
               <p>{event.data.summary}</p>
@@ -47,7 +50,7 @@ const formatDate = (date) => new Intl.DateTimeFormat("en-US", { dateStyle: "long
   {past.length > 0 && (
     <section class="events-section events-archive">
       <h2>PAST EVENTS</h2>
-      <ul>{past.map((event) => <li><a href={`/upcoming-events/${event.id}/`}>{event.data.title}</a> <span>{formatDate(event.data.start)}</span></li>)}</ul>
+      <ul>{past.map((event) => <li><a href={`/upcoming-events/${event.id}/`}>{event.data.title}</a> <span>{formatEventDate(event)}</span></li>)}</ul>
     </section>
   )}
   {updates.length > 0 && (
