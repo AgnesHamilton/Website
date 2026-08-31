@@ -23,12 +23,10 @@ export default async (request) => {
   for (const field of FILE_FIELDS) {
     const file = formData.get(field);
     if (!(file instanceof File) || !file.size) continue;
-    const contentId = `booking-${field}`;
-    data[field] = `cid:${contentId}`;
+    data[field] = `Attached: ${file.name || `${field}.jpg`}`;
     attachments.push({
       content: Buffer.from(await file.arrayBuffer()).toString("base64"),
       filename: file.name || `${field}.jpg`,
-      contentId,
     });
   }
 
