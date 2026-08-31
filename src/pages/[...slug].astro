@@ -183,7 +183,13 @@ const faq = [
           try {
             const response = await fetch("/api/booking-submit", { method: "POST", body: new FormData(bookingForm) });
             if (!response.ok) throw new Error("Booking request failed");
-            window.location.assign("/booking-confirmation/");
+            bookingForm.innerHTML = `
+              <div class="form-confirmation" role="status" tabindex="-1">
+                <h2>THANK YOU</h2>
+                <p>Your booking request has been sent. Agnes will review the details and follow up by email.</p>
+              </div>`;
+            bookingForm.querySelector(".form-confirmation")?.focus();
+            bookingForm.scrollIntoView({ behavior: "smooth", block: "start" });
           } catch {
             window.alert("Your request could not be sent. Please try again or email info@agneshamilton.com.");
             if (button instanceof HTMLButtonElement) {
