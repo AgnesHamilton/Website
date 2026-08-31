@@ -82,7 +82,7 @@ const faq = [
         <p>New tattoos are billed at $250 per hour. Cover-ups, reworks, and specialty tattoos are billed at $300 per hour.</p>
       </div>
 
-      <form class="booking-form" name="tattoo-booking" method="POST" action="/booking/success/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
+      <form class="booking-form" name="tattoo-booking" method="POST" action="/booking-confirmation/" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="tattoo-booking" />
         <p class="form-hidden"><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
@@ -122,7 +122,7 @@ const faq = [
           </fieldset>
           <fieldset class="form-wide reference-upload-fields">
             <legend>REFERENCE IMAGES</legend>
-            <p>Upload up to three reference images. The combined form submission must be under 8 MB.</p>
+            <p>Upload up to three reference images. The combined image upload must be under 4 MB.</p>
             <label>REFERENCE IMAGE 1 <span aria-hidden="true">*</span> <input type="file" name="reference-image-1" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" required /></label>
             <label>REFERENCE IMAGE 2 <input type="file" name="reference-image-2" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
             <label>REFERENCE IMAGE 3 <input type="file" name="reference-image-3" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
@@ -161,7 +161,37 @@ const faq = [
           input.addEventListener("change", updatePhotoRequirement);
         });
         availabilityInputs.forEach((input) => input.addEventListener("change", updateAvailabilityRequirement));
-        bookingForm?.addEventListener("submit", updateAvailabilityRequirement);
+        bookingForm?.addEventListener("submit", async (event) => {
+          updateAvailabilityRequirement();
+          if (!(bookingForm instanceof HTMLFormElement) || !bookingForm.checkValidity()) return;
+
+          event.preventDefault();
+          const button = bookingForm.querySelector('button[type="submit"]');
+          const files = Array.from(bookingForm.querySelectorAll('input[type="file"]'))
+            .filter((input) => input instanceof HTMLInputElement)
+            .flatMap((input) => Array.from(input.files ?? []));
+          if (files.reduce((total, file) => total + file.size, 0) > 4 * 1024 * 1024) {
+            window.alert("Please keep the combined image upload under 4 MB.");
+            return;
+          }
+
+          if (button instanceof HTMLButtonElement) {
+            button.disabled = true;
+            button.textContent = "SENDING…";
+          }
+
+          try {
+            const response = await fetch("/api/booking-submit", { method: "POST", body: new FormData(bookingForm) });
+            if (!response.ok) throw new Error("Booking request failed");
+            window.location.assign("/booking-confirmation/");
+          } catch {
+            window.alert("Your request could not be sent. Please try again or email info@agneshamilton.com.");
+            if (button instanceof HTMLButtonElement) {
+              button.disabled = false;
+              button.textContent = "SEND BOOKING REQUEST";
+            }
+          }
+        });
         updatePhotoRequirement();
         updateAvailabilityRequirement();
       </script>

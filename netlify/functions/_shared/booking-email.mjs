@@ -28,6 +28,9 @@ const clean = (value) => typeof value === "string" ? value.trim() : "";
 
 const linkValue = (value, label) => {
   const safeValue = escapeHtml(value);
+  if (/^cid:/i.test(value)) {
+    return `<img src="${safeValue}" alt="${escapeHtml(label)}" style="display:block;width:100%;max-width:460px;height:auto;border-radius:6px;border:1px solid #ded7df;" />`;
+  }
   if (/^https:\/\//i.test(value)) {
     return `<a href="${safeValue}" style="color:#5a285c;text-decoration:underline;">View ${escapeHtml(label.toLowerCase())}</a>`;
   }

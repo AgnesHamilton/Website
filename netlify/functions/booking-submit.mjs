@@ -1,0 +1,61 @@
+import { buildBookingEmail } from "./_shared/booking-email.mjs";
+
+const FILE_FIELDS = ["existing-tattoo-photo", "reference-image-1", "reference-image-2", "reference-image-3"];
+
+export default async (request) => {
+  if (request.method !== "POST") return new Response("Method not allowed", { status: 405 });
+
+  const formData = await request.formData();
+  if (String(formData.get("bot-field") || "").trim()) return new Response(null, { status: 204 });
+
+  const data = {};
+  for (const [key, value] of formData.entries()) {
+    if (typeof value === "string") data[key] = value;
+  }
+
+  const attachments = [];
+  for (const field of FILE_FIELDS) {
+    const file = formData.get(field);
+    if (!(file instanceof File) || !file.size) continue;
+    const contentId = `booking-${field}`;
+    data[field] = `cid:${contentId}`;
+    attachments.push({
+      content: Buffer.from(await file.arrayBuffer()).toString("base64"),
+      filename: file.name || `${field}.jpg`,
+      contentId,
+    });
+  }
+
+  const apiKey = Netlify.env.get("RESEND_API_KEY");
+  const to = Netlify.env.get("BOOKING_NOTIFICATION_TO") || "info@agneshamilton.com";
+  const from = Netlify.env.get("BOOKING_NOTIFICATION_FROM");
+  if (!apiKey || !from) return Response.json({ error: "Email service is not configured." }, { status: 500 });
+
+  const email = buildBookingEmail(data);
+  const replyTo = data.email?.trim();
+  const response = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+    body: JSON.stringify({
+      from,
+      to: [to],
+      subject: email.subject,
+      html: email.html,
+      text: email.text,
+      attachments,
+      ...(replyTo ? { reply_to: replyTo } : {}),
+    }),
+  });
+
+  if (!response.ok) {
+    console.error(`Resend booking notification failed (${response.status}): ${await response.text()}`);
+    return Response.json({ error: "The booking email could not be sent." }, { status: 502 });
+  }
+
+  const storageResponse = await fetch(new URL("/booking/", request.url), { method: "POST", body: formData });
+  if (!storageResponse.ok) console.error(`Netlify form storage failed (${storageResponse.status}).`);
+
+  return Response.json({ ok: true });
+};
+
+export const config = { path: "/api/booking-submit" };
