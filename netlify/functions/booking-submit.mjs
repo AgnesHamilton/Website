@@ -1,9 +1,14 @@
 import { buildBookingEmail } from "./_shared/booking-email.mjs";
 
 const FILE_FIELDS = ["existing-tattoo-photo", "reference-image-1", "reference-image-2", "reference-image-3"];
-const CORS_HEADERS = { "Access-Control-Allow-Origin": "https://agneshamilton.com" };
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "https://agneshamilton.com",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
 export default async (request) => {
+  if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: CORS_HEADERS });
   if (request.method !== "POST") return new Response("Method not allowed", { status: 405, headers: CORS_HEADERS });
 
   const formData = await request.formData();
