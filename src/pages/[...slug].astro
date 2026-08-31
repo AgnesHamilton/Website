@@ -89,8 +89,8 @@ const faq = [
         <div class="form-grid">
           <label>NAME <input type="text" name="name" autocomplete="name" required /></label>
           <label>EMAIL <input type="email" name="email" autocomplete="email" required /></label>
-          <label>PHONE <input type="tel" name="phone" autocomplete="tel" /></label>
-          <label>PRONOUNS <input type="text" name="pronouns" /></label>
+          <label>PHONE <input type="tel" name="phone" autocomplete="tel" required /></label>
+          <label>PRONOUNS <input type="text" name="pronouns" required /></label>
           <fieldset class="form-wide form-options">
             <legend>WHAT WOULD YOU LIKE TO BOOK?</legend>
             <label><input type="radio" name="tattoo-type" value="New tattoo" required /> New tattoo</label>
@@ -108,26 +108,26 @@ const faq = [
             <input id="existing-tattoo-photo" type="file" name="existing-tattoo-photo" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" />
           </div>
           <label class="form-wide">TATTOO IDEA <textarea name="tattoo-idea" rows="6" required></textarea></label>
-          <label>PLACEMENT <input type="text" name="placement" required /></label>
-          <label>APPROXIMATE SIZE <input type="text" name="size" placeholder="For example: 6 × 8 inches" required /></label>
-          <label>COLOR OR BLACK &amp; GRAY <input type="text" name="color-preference" /></label>
-          <label>BUDGET <input type="text" name="budget" /></label>
-          <fieldset class="form-wide form-options availability-options">
-            <legend>WHICH DAYS GENERALLY WORK FOR YOU?</legend>
+          <label>PLACEMENT <span class="optional-field">(OPTIONAL)</span> <input type="text" name="placement" /></label>
+          <label>APPROXIMATE SIZE <span class="optional-field">(OPTIONAL)</span> <input type="text" name="size" placeholder="For example: 6 × 8 inches" /></label>
+          <label>COLOR OR BLACK &amp; GRAY <input type="text" name="color-preference" required /></label>
+          <label>BUDGET <input type="text" name="budget" required /></label>
+          <fieldset class="form-wide form-options availability-options" aria-required="true">
+            <legend>WHICH DAYS GENERALLY WORK FOR YOU? <span aria-hidden="true">*</span></legend>
             <p>Agnes works Monday, Thursday, Friday, and Saturday from 11:00 AM–7:00 PM. Select all that apply.</p>
-            <label><input type="checkbox" name="available-monday" value="Monday" /> Monday</label>
-            <label><input type="checkbox" name="available-thursday" value="Thursday" /> Thursday</label>
-            <label><input type="checkbox" name="available-friday" value="Friday" /> Friday</label>
-            <label><input type="checkbox" name="available-saturday" value="Saturday" /> Saturday</label>
+            <label><input type="checkbox" name="available-monday" value="Monday" data-availability /> Monday</label>
+            <label><input type="checkbox" name="available-thursday" value="Thursday" data-availability /> Thursday</label>
+            <label><input type="checkbox" name="available-friday" value="Friday" data-availability /> Friday</label>
+            <label><input type="checkbox" name="available-saturday" value="Saturday" data-availability /> Saturday</label>
           </fieldset>
           <fieldset class="form-wide reference-upload-fields">
             <legend>REFERENCE IMAGES</legend>
             <p>Upload up to three reference images. The combined form submission must be under 8 MB.</p>
-            <label>REFERENCE IMAGE 1 <input type="file" name="reference-image-1" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
+            <label>REFERENCE IMAGE 1 <span aria-hidden="true">*</span> <input type="file" name="reference-image-1" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" required /></label>
             <label>REFERENCE IMAGE 2 <input type="file" name="reference-image-2" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
             <label>REFERENCE IMAGE 3 <input type="file" name="reference-image-3" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" /></label>
           </fieldset>
-          <label class="form-wide">ANYTHING ELSE? <textarea name="additional-notes" rows="4"></textarea></label>
+          <label class="form-wide">ANYTHING ELSE? <span class="optional-field">(OPTIONAL)</span> <textarea name="additional-notes" rows="4"></textarea></label>
         </div>
 
         <label class="form-consent"><input type="checkbox" name="consent" required /> I understand that submitting this form is a request and does not guarantee an appointment.</label>
@@ -138,6 +138,7 @@ const faq = [
         const bookingForm = document.querySelector(".booking-form");
         const photoField = bookingForm?.querySelector(".cover-photo-field");
         const photoInput = bookingForm?.querySelector("#existing-tattoo-photo");
+        const availabilityInputs = Array.from(bookingForm?.querySelectorAll("[data-availability]") ?? []).filter((input) => input instanceof HTMLInputElement);
 
         const updatePhotoRequirement = () => {
           if (!(bookingForm instanceof HTMLFormElement) || !(photoField instanceof HTMLElement) || !(photoInput instanceof HTMLInputElement)) return;
@@ -151,10 +152,18 @@ const faq = [
           if (!needsPhoto) photoInput.value = "";
         };
 
+        const updateAvailabilityRequirement = () => {
+          const hasSelection = availabilityInputs.some((input) => input.checked);
+          availabilityInputs[0]?.setCustomValidity(hasSelection ? "" : "Please select at least one available day.");
+        };
+
         bookingForm?.querySelectorAll('input[name="tattoo-type"], input[name="touch-up-type"]').forEach((input) => {
           input.addEventListener("change", updatePhotoRequirement);
         });
+        availabilityInputs.forEach((input) => input.addEventListener("change", updateAvailabilityRequirement));
+        bookingForm?.addEventListener("submit", updateAvailabilityRequirement);
         updatePhotoRequirement();
+        updateAvailabilityRequirement();
       </script>
     </section>
   )}
