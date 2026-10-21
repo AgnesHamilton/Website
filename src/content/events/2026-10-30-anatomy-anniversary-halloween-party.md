@@ -1,27 +1,29 @@
 ---
-title: "Anatomy Tattoo Anniversary & Halloween Party"
-start: 2026-10-30T00:00:00-07:00
-all_day: true
+title: "Devil’s Night Auction & Halloween Party"
+start: 2026-10-30T19:00:00-07:00
+end: 2026-10-30T22:00:00-07:00
 location: "Anatomy Tattoo"
 address: "3021 NE Broadway, Portland, OR 97232"
-summary: "COME PARTY WITH US! Anatomy Tattoo is celebrating our anniversary with a Halloween party and a ‘Witch’-themed silent art auction benefiting Bradley Angle. Dress spooky, celebrate with us and help support an amazing local organization!"
-event_url: "https://www.bradleyangle.org/"
+summary: "Come celebrate Halloween with me at Anatomy Tattoo’s Devil’s Night Auction! I will be there for an evening of art, costumes and community, with a silent auction benefiting Bradley Angle."
+event_url: "https://anatomytattoo.com/portland-tattoo-event/devils-night-auction/"
 organizer: "Anatomy Tattoo"
-image: "/images/events/three-witches-painting.jpg"
-image_alt: "Three Witches painting by Agnes Hamilton"
+image: "/images/events/devils-night-auction-fundraiser.jpg"
+image_alt: "Devil’s Night art show fundraiser and silent auction benefiting Bradley Angle at Anatomy Tattoo"
 published: true
 ---
 
-COME PARTY WITH US! Anatomy Tattoo is celebrating our anniversary with a Halloween party on October 30! 🧙‍♀️🎃
+Come celebrate Halloween with me at Anatomy Tattoo’s **Devil’s Night Auction and Halloween Party** on Friday, October 30, from 7–10 p.m. 🧙‍♀️🎃
 
-We’re putting together a silent art auction with the theme **“Witch,”** and proceeds will benefit Bradley Angle, a local nonprofit serving people affected by domestic violence.
+I will be there for an evening of art, community, costumes and moody Halloween fun. The night includes a silent art auction featuring original witch-themed artwork and other dark seasonal pieces.
 
-We’re hoping all of our friends, clients and community will come celebrate another year of Anatomy with us, enjoy some witchy art and help us raise money for a wonderful organization.
+All silent auction proceeds will benefit [Bradley Angle](https://www.bradleyangle.org/), an organization providing safety, education, empowerment, healing and hope for people affected by domestic violence.
 
-Party hours, auction previews and more details are coming soon. Save the date, dress spooky and come party with us!
+There is a suggested **$10 donation at the door**, and you’re welcome to give more if you would like to further support Bradley Angle.
+
+Dress spooky, come see the artwork and spend Devil’s Night with me for a wonderful cause!
 
 **Anatomy Tattoo**  
 3021 NE Broadway  
 Portland, OR 97232
 
-[Learn more about Bradley Angle.](https://www.bradleyangle.org/)
+[View the full event details.](https://anatomytattoo.com/portland-tattoo-event/devils-night-auction/)
