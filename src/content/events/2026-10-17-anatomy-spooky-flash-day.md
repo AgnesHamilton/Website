@@ -1,25 +1,25 @@
 ---
-title: "Anatomy Spooky Flash Day"
-start: 2026-10-17T00:00:00-07:00
-all_day: true
+title: "Spooky Scary Flash Day Part 2"
+start: 2026-10-31T12:00:00-07:00
+end: 2026-10-31T19:00:00-07:00
 location: "Anatomy Tattoo"
 address: "3021 NE Broadway, Portland, OR 97232"
-summary: "SPOOKY FRIENDS! Join us at Anatomy Tattoo on October 17 for a Halloween flash day filled with themed custom flash, event-only deals and plenty of spooky fun. More details and flash previews are coming soon!"
-event_url: ""
+summary: "Spooky friends! I will be tattooing at Anatomy Tattoo’s Spooky Scary Flash Day Part 2 on Halloween. Walk in or make an appointment for spooky flash from noon–7 p.m.—arms and legs only!"
+event_url: "https://anatomytattoo.com/portland-tattoo-event/spooky-scary-flash-day-part-2-anatomy-tattoo/"
 organizer: "Anatomy Tattoo"
-image: "/images/events/spooky-flash-artwork.jpg"
-image_alt: "Halloween tattoo flash with bats, pumpkins, a ghost and other spooky designs by Agnes Hamilton"
+image: "/images/events/spooky-scary-flash-day-part-2.jpg"
+image_alt: "Spooky Scary Flash Day Part 2 at Anatomy Tattoo on October 31, 2026"
 published: true
 ---
 
-SPOOKY FRIENDS! We’re having an Anatomy Spooky Flash Day on October 17! 🎃
+Spooky friends! I will be tattooing at Anatomy Tattoo’s **Spooky Scary Flash Day Part 2** on Halloween—Saturday, October 31, from noon–7 p.m. 🎃
 
-Come hang out with us for a fun day of Halloween-themed custom flash, event-only deals and all kinds of spooky tattoo goodness. We always have so much fun with these flash days, and I’m already excited to see what everyone chooses!
+Come see me for spooky flash and Halloween tattoo fun. You can walk in or make an appointment, and tattoos for this event will be **arms and legs only**.
 
-Flash previews, hours and all the other important details are coming soon. Save the date and check back for updates!
+I can’t wait to see which design you choose!
 
 **Anatomy Tattoo**  
 3021 NE Broadway  
 Portland, OR 97232
 
-I hope to see you there! 👻
+[View the full event details.](https://anatomytattoo.com/portland-tattoo-event/spooky-scary-flash-day-part-2-anatomy-tattoo/)
