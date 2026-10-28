@@ -5,7 +5,7 @@ end: 2026-10-30T22:00:00-07:00
 location: "Anatomy Tattoo"
 address: "3021 NE Broadway, Portland, OR 97232"
 summary: "Come celebrate Halloween with me at Anatomy Tattoo’s Devil’s Night Auction! I will be there for an evening of art, costumes and community, with a silent auction benefiting Bradley Angle."
-event_url: "https://anatomytattoo.com/portland-tattoo-event/devils-night-auction/"
+event_url: "https://anatomytattoo.com/bid"
 organizer: "Anatomy Tattoo"
 image: "/images/events/devils-night-auction-fundraiser.jpg"
 image_alt: "Devil’s Night art show fundraiser and silent auction benefiting Bradley Angle at Anatomy Tattoo"
@@ -26,4 +26,4 @@ Dress spooky, come see the artwork and spend Devil’s Night with me for a wonde
 3021 NE Broadway  
 Portland, OR 97232
 
-[View the full event details.](https://anatomytattoo.com/portland-tattoo-event/devils-night-auction/)
+[Register or Log In to Bid.](https://anatomytattoo.com/bid)
